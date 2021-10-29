@@ -6,3 +6,48 @@ body {
   width: 100vw;
   height: 100vh;
 }
+.wrap {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.menu .box {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  z-index: 2;
+  transition: all 0.5s;
+}
+
+.menu .box.show {
+  width: 300px;
+  height: calc(100vh - 10px);
+  background: rgba(0, 0, 0, 0.5);
+}
+.menu .menu_toggle {
+  position: absolute;
+  transform: rotate(-90deg);
+  transition: all 0.5s;
+  cursor: pointer;
+  z-index: 3;
+}
+.menu_toggle.show {
+  transform: rotate(0deg);
+}
+.menu .box .boxWrap.hidden {
+  display: none;
+}
+.boxWrap label {
+  color: #fff;
+  margin: 10px;
+  font-size: 0.8rem;
+}
+#categorySelect {
+  margin-top: 30px;
+  padding: 5px;
+  border-radius: 10px;
+}

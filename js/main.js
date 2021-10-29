@@ -124,7 +124,25 @@ var categoryCallback = function (result, status, pagination) {
 // PK6 주차장, OL7 주유소, 충전소, SW8 지하철역, BK9 은행, CT1 문화시설 , AG2 중개업소
 // PO3 공공기관, AT4 관광명소, AD5 숙박, FD6 음식점, CE7 카페, HP8 병원, PM9 약국
 // 공공기관 코드 검색
-categoryPlaces.categorySearch('PO3', categoryCallback, {
-  // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-  location: new kakao.maps.LatLng(37.3311110877474, 127.113932721957),
+// categoryPlaces.categorySearch('PO3', categoryCallback, {
+//   // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
+//   location: new kakao.maps.LatLng(37.3311110877474, 127.113932721957),
+// });
+
+const menu = document.querySelector('.menu');
+const menu_box = menu.querySelector('.box');
+const boxWrap = menu_box.querySelector('.boxWrap');
+const menu_toggle = menu.querySelector('.menu_toggle');
+const selectbox = menu_box.querySelector('#categorySelect');
+menu_toggle.addEventListener('click', () => {
+  menu_toggle.classList.toggle('show');
+  menu_box.classList.toggle('show');
+  boxWrap.classList.toggle('hidden');
+});
+selectbox.addEventListener('change', e => {
+  // console.log('selectBox====>', categorySelect.value);
+  categoryPlaces.categorySearch(categorySelect.value, categoryCallback, {
+    // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
+    location: new kakao.maps.LatLng(37.3311110877474, 127.113932721957),
+  });
 });
