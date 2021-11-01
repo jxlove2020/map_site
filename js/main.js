@@ -99,6 +99,8 @@ var categoryCallback = function (result, status, pagination) {
   // 마커 이미지를 생성합니다
   var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
+  clusterer.clear();
+
   if (status === kakao.maps.services.Status.OK) {
     for (let r of result) {
       // console.log(r, r.address_name, r.place_name, r.y, r.x);
