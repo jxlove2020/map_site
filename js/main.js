@@ -148,3 +148,37 @@ selectbox.addEventListener('change', e => {
     location: new kakao.maps.LatLng(37.3311110877474, 127.113932721957),
   });
 });
+
+// 콘솔 창에서 getInfo() 하면 message 내용 출력 =========================================================
+function getInfo() {
+  // 지도의 현재 중심좌표를 얻어옵니다
+  var center = map.getCenter();
+
+  // 지도의 현재 레벨을 얻어옵니다
+  var level = map.getLevel();
+
+  // 지도타입을 얻어옵니다
+  var mapTypeId = map.getMapTypeId();
+
+  // 지도의 현재 영역을 얻어옵니다
+  var bounds = map.getBounds();
+
+  // 영역의 남서쪽 좌표를 얻어옵니다
+  var swLatLng = bounds.getSouthWest();
+
+  // 영역의 북동쪽 좌표를 얻어옵니다
+  var neLatLng = bounds.getNorthEast();
+
+  // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
+  var boundsStr = bounds.toString();
+
+  var message = `
+    지도 중심좌표는 위도 ${center.getLat()}, 경도 ${center.getLng()}이고 
+    지도 레벨은 ${level}입니다 
+    지도 타입은 ${mapTypeId} 이고
+    지도의 남서쪽 좌표는${swLatLng.getLat()}, ${swLatLng.getLng()}이고
+    북동쪽 좌표는 ${neLatLng.getLat()}, ${neLatLng.getLng()} 입니다
+    영역정보는 ${boundsStr} 입니다`;
+
+  console.log(message);
+}
