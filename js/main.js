@@ -152,7 +152,9 @@ selectbox.addEventListener('change', e => {
 // idle 이벤트 : 중심 좌표나 확대 수준이 변경되면 발생한다.
 // 단, 애니메이션 도중에는 발생하지 않는다.
 kakao.maps.event.addListener(map, 'idle', function () {
-  getInfo();
+  // console 에서 지도 정보를 보려면 getInfo() 주석을 해제하세요
+  // getInfo();
+
   // 카테고리가 있을 경우 카테고리 검색
   if (categorySelect.value !== '') {
     categoryPlaces.categorySearch(categorySelect.value, categoryCallback, {
