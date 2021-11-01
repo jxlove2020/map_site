@@ -92,7 +92,7 @@ var categoryResult = new Array();
 
 var categoryCallback = function (result, status, pagination) {
   // 마커 이미지의 이미지 주소입니다
-  var imageSrc = './images/institution_icon.png';
+  var imageSrc = './images/icon.png';
   // 마커 이미지의 이미지 크기 입니다
   var imageSize = new kakao.maps.Size(30, 30);
 
