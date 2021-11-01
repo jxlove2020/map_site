@@ -41,7 +41,7 @@ body {
 .menu .box .boxWrap.hidden {
   display: none;
 }
-.boxWrap label {
+.menu .box .boxWrap label {
   color: #fff;
   margin: 10px;
   font-size: 0.8rem;
