@@ -51,3 +51,19 @@ body {
   padding: 5px;
   border-radius: 10px;
 }
+
+.addr {
+  position: absolute;
+  top: 5px;
+  left: 35px;
+  width: 250px;
+  height: 25px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  font-size: 0.8rem;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
