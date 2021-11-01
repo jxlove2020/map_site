@@ -117,10 +117,44 @@ var categoryCallback = function (result, status, pagination) {
         image: markerImage, // 마커 이미지
       });
 
+      // 마커에 표시할 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: `<div>&nbsp;${item.title}&nbsp;</div>`, // 인포윈도우에 표시할 내용
+        removable: false,
+      });
+
+      // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+      // 이벤트 리스너로는 클로저를 만들어 등록합니다
+      // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+      kakao.maps.event.addListener(
+        marker,
+        'mouseover',
+        makeOverListener(map, marker, infowindow)
+      );
+      kakao.maps.event.addListener(
+        marker,
+        'mouseout',
+        makeOutListener(infowindow)
+      );
+
       clusterer.addMarker(marker);
     }
   }
 };
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+function makeOverListener(map, marker, infowindow) {
+  return function () {
+    infowindow.open(map, marker);
+  };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다
+function makeOutListener(infowindow) {
+  return function () {
+    infowindow.close();
+  };
+}
 
 // MT1 대형마트, CS2 편의점, PS3 어린이집, 유치원, SC4 학교, AC5 학원
 // PK6 주차장, OL7 주유소, 충전소, SW8 지하철역, BK9 은행, CT1 문화시설 , AG2 중개업소

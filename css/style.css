@@ -67,3 +67,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.infoWindow {
+  padding: 10px;
+}
