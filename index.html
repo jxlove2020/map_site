@@ -3,14 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- PWA 매너페스트 파일 연결, 상태바 테마색상을 흰색으로 변경 -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- 모바일 기기 뷰포트, 브라우저 주소줄 파비콘 설정-->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/32x32.png" />
+
     <title>지도 생성하기</title>
-    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" />
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bcda4227b00a71e6406ab99970cb7ac1&libraries=services,clusterer,drawing"
     ></script>
+
+    <script src="js/ie.js"></script>
+    <script defer src="js/main.js"></script>
   </head>
   <body>
     <div class="wrap">
@@ -48,6 +63,15 @@
       <div class="addr" id="centerAddr"></div>
     </div>
 
-    <script src="js/main.js"></script>
+    <!-- 1. 서비스 워커 등록 -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('./service_worker.js')
+          .then(function () {
+            console.log('서비스 워커가 등록됨!');
+          });
+      }
+    </script>
   </body>
 </html>
