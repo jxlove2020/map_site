@@ -145,7 +145,16 @@ selectbox.addEventListener('change', e => {
   // console.log('selectBox====>', categorySelect.value);
   categoryPlaces.categorySearch(categorySelect.value, categoryCallback, {
     // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
-    location: new kakao.maps.LatLng(37.3311110877474, 127.113932721957),
+    location: map.getCenter(),
+  });
+});
+
+// idle 이벤트 : 중심 좌표나 확대 수준이 변경되면 발생한다.
+// 단, 애니메이션 도중에는 발생하지 않는다.
+kakao.maps.event.addListener(map, 'idle', function () {
+  categoryPlaces.categorySearch(categorySelect.value, categoryCallback, {
+    // Map 객체를 지정하지 않았으므로 좌표객체를 생성하여 넘겨준다.
+    location: map.getCenter(),
   });
 });
 
