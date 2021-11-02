@@ -16,6 +16,12 @@
     <link rel="shortcut icon" href="images/favicon.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="images/16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="images/32x32.png" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
 
     <title>지도 생성하기</title>
     <link rel="stylesheet" href="css/style.css" />
@@ -34,28 +40,33 @@
       <div class="menu">
         <div class="box">
           <div class="boxWrap hidden">
-            <label>카테고리</label>
-            <select name="categorySelect" id="categorySelect">
-              <option value="">카테고리선택</option>
-              <option value="MT1">대형마트</option>
-              <option value="CS2">편의점</option>
-              <option value="PS3">어린이집, 유치원</option>
-              <option value="SC4">학교</option>
-              <option value="AC5">학원</option>
-              <option value="PK6">주차장</option>
-              <option value="OL7">주유소, 충전소</option>
-              <option value="SW8">지하철역</option>
-              <option value="BK9">은행</option>
-              <option value="CT1">문화시설</option>
-              <option value="AG2">중개업소</option>
-              <option value="PO3">공공기관</option>
-              <option value="AT4">관광명소</option>
-              <option value="AD5">숙박</option>
-              <option value="FD6">음식점</option>
-              <option value="CE7">카페</option>
-              <option value="HP8">병원</option>
-              <option value="PM9">약국</option>
-            </select>
+            <div class="category">
+              <label>카테고리</label>
+              <select name="categorySelect" id="categorySelect">
+                <option value="">카테고리선택</option>
+                <option value="MT1">대형마트</option>
+                <option value="CS2">편의점</option>
+                <option value="PS3">어린이집, 유치원</option>
+                <option value="SC4">학교</option>
+                <option value="AC5">학원</option>
+                <option value="PK6">주차장</option>
+                <option value="OL7">주유소, 충전소</option>
+                <option value="SW8">지하철역</option>
+                <option value="BK9">은행</option>
+                <option value="CT1">문화시설</option>
+                <option value="AG2">중개업소</option>
+                <option value="PO3">공공기관</option>
+                <option value="AT4">관광명소</option>
+                <option value="AD5">숙박</option>
+                <option value="FD6">음식점</option>
+                <option value="CE7">카페</option>
+                <option value="HP8">병원</option>
+                <option value="PM9">약국</option>
+              </select>
+            </div>
+            <div class="mylocation">
+              <i class="fas fa-map-marked-alt" title="현재위치로.."></i>
+            </div>
           </div>
         </div>
         <span class="menu_toggle">👇</span>

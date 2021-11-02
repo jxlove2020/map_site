@@ -18,7 +18,7 @@ body {
   position: absolute;
   width: 25px;
   height: 25px;
-  background-color: #fff;
+  background-color: white;
   z-index: 2;
   transition: all 0.5s;
 }
@@ -41,15 +41,9 @@ body {
 .menu .box .boxWrap.hidden {
   display: none;
 }
-.menu .box .boxWrap label {
-  color: #fff;
-  margin: 10px;
-  font-size: 0.8rem;
-}
-#categorySelect {
-  margin-top: 30px;
-  padding: 5px;
-  border-radius: 10px;
+
+.infoWindow {
+  padding: 10px;
 }
 
 .addr {
@@ -68,6 +62,71 @@ body {
   align-items: center;
 }
 
-.infoWindow {
+/* category */
+.category {
+  display: inline-block;
+  margin-top: 50px;
+}
+.category label {
+  color: white;
+  margin: 10px;
+  font-size: 0.8rem;
+}
+.category #categorySelect {
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* location */
+.mylocation {
+  display: inline-block;
+  margin-left: 30px;
+}
+.mylocation i {
   padding: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+}
+
+/* 현재위치 포인터 애니메이션효과 */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+    -moz-box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+    -moz-box-shadow: 0 0 0 0 rgba(204, 49, 44, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
+  }
+}
+
+img[title='현재위치'] {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgb(255, 0, 0);
+  animation: pulse 1.7s infinite;
 }

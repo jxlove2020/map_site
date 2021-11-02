@@ -256,3 +256,47 @@ function displayCenterInfo(result, status) {
 }
 
 searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+// 현재위치로 가기 =========================================================
+
+// 현재위치 를 1번만 호출할수 있도록 해주는 변수
+const myLocation = document.querySelector('.mylocation > i');
+let currentUse = true;
+
+// 현재위치를 받아오는 함수
+myLocation.addEventListener('click', () => {
+  console.log(navigator);
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const latlng = new kakao.maps.LatLng(lat, lng);
+
+      // 현재위치를 1회만 호출
+      if (currentUse) {
+        // 마커 이미지의 이미지 주소입니다
+        var imageSrc = './images/currentPoint.png';
+        // 마커 이미지의 이미지 크기 입니다
+        var imageSize = new kakao.maps.Size(22, 22);
+
+        // 마커 이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+        marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: latlng, // 마커를 표시할 위치
+          title: '현재위치',
+          image: markerImage, // 마커 이미지
+        });
+
+        currentUse = false;
+      }
+
+      map.setLevel(4);
+      // latlng 위치로 이동
+      map.panTo(latlng);
+    });
+  } else {
+    alert('위치정보사용 불가능');
+  }
+});
