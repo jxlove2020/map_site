@@ -77,14 +77,23 @@ for (var i = 0; i < positions.length; i++) {
 
 // 주소로 좌표찾기 =========================================================
 var geocoder = new kakao.maps.services.Geocoder();
-
 var addressCallback = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
     console.log('주소좌표====>', result);
+    geocoder.coord2RegionCode(result[0].x, result[0].y, callbackRegionCode);
   }
 };
 
 geocoder.addressSearch('수지구 죽전동', addressCallback);
+
+// coord2RegionCode(x, y, callback, options)
+// 좌표 값에 해당하는 행정동, 법정동 정보를 얻는다.
+var callbackRegionCode = function (result, status) {
+  if (status === kakao.maps.services.Status.OK) {
+    console.log('지역 명칭 : ' + result[0].address_name);
+    console.log('행정구역 코드 : ' + result[0].code);
+  }
+};
 
 // 카테고리 =========================================================
 var categoryPlaces = new kakao.maps.services.Places();
@@ -198,6 +207,11 @@ kakao.maps.event.addListener(map, 'idle', function () {
   }
   // 좌표로 주소 얻기
   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+  geocoder.coord2RegionCode(
+    map.getCenter().La,
+    map.getCenter().Ma,
+    callbackRegionCode
+  );
 });
 
 // 콘솔 창에서 getInfo() 하면 message 내용 출력 =========================================================
