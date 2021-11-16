@@ -67,6 +67,16 @@
             <div class="mylocation">
               <i class="fas fa-map-marked-alt" title="현재위치로.."></i>
             </div>
+            <div class="search">
+              <label>검색</label>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="검색 키워드를 입력하세요."
+              />
+            </div>
+            <div class="searchdata"></div>
           </div>
         </div>
         <span class="menu_toggle">👇</span>
@@ -80,7 +90,7 @@
         navigator.serviceWorker
           .register('./service_worker.js')
           .then(function () {
-            console.log('서비스 워커가 등록됨!');
+            // console.log('서비스 워커가 등록됨!');
           });
       }
     </script>

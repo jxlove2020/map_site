@@ -130,3 +130,29 @@ img[title='현재위치'] {
   box-shadow: 0 0 0 rgb(255, 0, 0);
   animation: pulse 1.7s infinite;
 }
+
+/* 키워드 검색 */
+.search {
+  margin-top: 1rem;
+}
+.search label {
+  color: white;
+  margin: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 1.5rem;
+}
+input#search {
+  padding: 7px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  margin-left: -1.4rem;
+  font-size: 0.8rem;
+}
+.searchdata {
+  margin: 20px auto;
+  width: 90%;
+  height: 50vh;
+  background: rgba(255, 255, 255, 0.5);
+  overflow-y: auto;
+}

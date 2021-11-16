@@ -140,11 +140,11 @@ var categoryCallback = function (result, status, pagination) {
         'click',
         makeOverListener(map, marker, infowindow)
       );
-      kakao.maps.event.addListener(
-        marker,
-        'mouseout',
-        makeOutListener(infowindow)
-      );
+      // kakao.maps.event.addListener(
+      //   marker,
+      //   'mouseout',
+      //   makeOutListener(infowindow)
+      // );
 
       clusterer.addMarker(marker);
     }
@@ -312,5 +312,65 @@ myLocation.addEventListener('click', () => {
     });
   } else {
     alert('위치정보사용 불가능');
+  }
+});
+
+// 키워드 검색
+var searchText = document.querySelector('#search');
+var places = new kakao.maps.services.Places();
+// 키워드 검색 마커 클러스터러를 생성합니다 =========================================================
+var clustererKeyword = new kakao.maps.MarkerClusterer({
+  map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+  averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+  minLevel: 5, // 클러스터 할 최소 지도 레벨
+});
+
+var callbackKeyword = function (result, status) {
+  if (status === kakao.maps.services.Status.OK) {
+    var searchdata = document.querySelector('.searchdata');
+    for (let r of result) {
+      // console.log(r, r.address_name, r.place_name, r.y, r.x);
+      var item = {
+        title: r.place_name,
+        latlng: new kakao.maps.LatLng(r.y, r.x),
+      };
+
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: item.latlng, // 마커를 표시할 위치
+        title: item.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+      });
+
+      // 마커에 표시할 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: `<div>&nbsp;${item.title}&nbsp;</div>`, // 인포윈도우에 표시할 내용
+        removable: true,
+      });
+
+      // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+      // 이벤트 리스너로는 클로저를 만들어 등록합니다
+      // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+      kakao.maps.event.addListener(
+        marker,
+        'click',
+        makeOverListener(map, marker, infowindow)
+      );
+      // kakao.maps.event.addListener(
+      //   marker,
+      //   'mouseout',
+      //   makeOutListener(infowindow)
+      // );
+
+      clustererKeyword.addMarker(marker);
+    }
+  }
+};
+
+// 검색창에서 엔터 키 누르면 검색
+searchText.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    clustererKeyword.clear();
+    places.keywordSearch(searchText.value, callbackKeyword);
   }
 });
