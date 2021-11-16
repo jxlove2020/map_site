@@ -18,7 +18,7 @@ body {
   position: absolute;
   width: 25px;
   height: 25px;
-  background-color: white;
+  /* background-color: white; */
   z-index: 2;
   transition: all 0.5s;
 }
@@ -30,13 +30,13 @@ body {
 }
 .menu .menu_toggle {
   position: absolute;
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) scale(1.5);
   transition: all 0.5s;
   cursor: pointer;
   z-index: 3;
 }
 .menu_toggle.show {
-  transform: rotate(0deg);
+  transform: rotate(0deg) scale(1.5);
 }
 .menu .box .boxWrap.hidden {
   display: none;
