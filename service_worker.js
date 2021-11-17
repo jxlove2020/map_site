@@ -3,7 +3,6 @@ const aFilesToCache = [
   // 캐시할 파일 선언
   './',
   './index.html',
-  './css/style.css',
   './manifest.json',
   './images/favicon.png',
   './images/16x16.png',
@@ -11,7 +10,6 @@ const aFilesToCache = [
   './images/192x192.png',
   './images/512x512.png',
   './js/ie.js',
-  './js/main.js',
 ];
 
 // 2.서비스워커를 설치하고 캐시를 저장함

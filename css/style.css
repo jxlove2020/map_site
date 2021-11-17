@@ -2,6 +2,15 @@ body {
   margin: 0;
   padding: 0;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
 #map {
   width: 100vw;
   height: 100vh;
@@ -153,6 +162,43 @@ input#search {
   margin: 20px auto;
   width: 90%;
   height: 50vh;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.7);
   overflow-y: auto;
+  color: black;
+  font-size: 0.8rem;
+  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+}
+.searchdata li {
+  list-style: none;
+}
+.searchdata .item {
+  position: relative;
+  border-bottom: 1px solid #888;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 65px;
+}
+.searchdata .item span {
+  display: block;
+  margin-top: 4px;
+}
+.searchdata .item h5,
+.searchdata .item .info {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.searchdata .item .info {
+  padding: 10px;
+}
+.searchdata .info .gray {
+  color: #8a8a8a;
+}
+.searchdata .info .jibun {
+  padding-left: 26px;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
+    no-repeat;
+}
+.searchdata .info .tel {
+  color: #009900;
 }

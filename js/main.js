@@ -328,12 +328,17 @@ var clustererKeyword = new kakao.maps.MarkerClusterer({
 var callbackKeyword = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
     var searchdata = document.querySelector('.searchdata');
+    var fragment = document.createDocumentFragment();
     for (let r of result) {
       // console.log(r, r.address_name, r.place_name, r.y, r.x);
       var item = {
         title: r.place_name,
         latlng: new kakao.maps.LatLng(r.y, r.x),
       };
+
+      // 검색 데이터 리스트
+      // console.log(getListItem(r));
+      fragment.appendChild(getListItem(r));
 
       // 마커를 생성합니다
       var marker = new kakao.maps.Marker({
@@ -364,8 +369,34 @@ var callbackKeyword = function (result, status) {
 
       clustererKeyword.addMarker(marker);
     }
+    searchdata.appendChild(fragment);
   }
 };
+
+// 검색결과 항목을 Element로 반환하는 함수입니다
+function getListItem(places) {
+  var el = document.createElement('li'),
+    itemStr = '<div class="info">' + '   <h5>' + places.place_name + '</h5>';
+
+  if (places.road_address_name) {
+    itemStr +=
+      '    <span>' +
+      places.road_address_name +
+      '</span>' +
+      '   <span class="jibun gray">' +
+      places.address_name +
+      '</span>';
+  } else {
+    itemStr += '    <span>' + places.address_name + '</span>';
+  }
+
+  itemStr += '  <span class="tel">' + places.phone + '</span>' + '</div>';
+
+  el.innerHTML = itemStr;
+  el.className = 'item';
+
+  return el;
+}
 
 // 검색창에서 엔터 키 누르면 검색
 searchText.addEventListener('keypress', e => {
