@@ -168,6 +168,12 @@ input#search {
   font-size: 0.8rem;
   font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 }
+.searchdata.show {
+  display: block;
+}
+.searchdata.hidden {
+  display: none;
+}
 .searchdata li {
   list-style: none;
 }

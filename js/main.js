@@ -318,6 +318,7 @@ myLocation.addEventListener('click', () => {
 // 키워드 검색
 var searchText = document.querySelector('#search');
 var places = new kakao.maps.services.Places();
+var searchdata = document.querySelector('.searchdata');
 // 키워드 검색 마커 클러스터러를 생성합니다 =========================================================
 var clustererKeyword = new kakao.maps.MarkerClusterer({
   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -325,10 +326,22 @@ var clustererKeyword = new kakao.maps.MarkerClusterer({
   minLevel: 5, // 클러스터 할 최소 지도 레벨
 });
 
+// 검색결과 목록의 자식 Element를 제거하는 함수입니다
+function removeAllChildNodes(el) {
+  console.log(el);
+  while (el.hasChildNodes()) {
+    el.removeChild(el.lastChild);
+  }
+}
+
 var callbackKeyword = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
-    var searchdata = document.querySelector('.searchdata');
+    searchdata.classList.remove('hidden');
     var fragment = document.createDocumentFragment();
+
+    // 검색 결과 목록에 추가된 항목들을 제거합니다
+    removeAllChildNodes(searchdata);
+
     for (let r of result) {
       // console.log(r, r.address_name, r.place_name, r.y, r.x);
       var item = {
@@ -403,5 +416,15 @@ searchText.addEventListener('keypress', e => {
   if (e.key === 'Enter') {
     clustererKeyword.clear();
     places.keywordSearch(searchText.value, callbackKeyword);
+  }
+});
+searchText.addEventListener('input', () => {
+  if (searchText.value == '') {
+    console.log('test');
+    clustererKeyword.clear();
+
+    // 검색 결과 목록에 추가된 항목들을 제거합니다
+    removeAllChildNodes(searchdata);
+    searchdata.classList.add('hidden');
   }
 });
