@@ -98,10 +98,10 @@ var callbackRegionCode = function (result, status) {
 
     if (result[0].code.substring(8, 10) === '00') {
       regionData(dongname[dongname.length - 1]);
-      console.log(dongname[dongname.length - 1]);
+      // console.log(dongname[dongname.length - 1]);
     } else {
       regionData(dongname[dongname.length - 2]);
-      console.log(dongname[dongname.length - 2]);
+      // console.log(dongname[dongname.length - 2]);
     }
   }
 };
@@ -291,7 +291,7 @@ let currentUse = true;
 
 // 현재위치를 받아오는 함수
 myLocation.addEventListener('click', () => {
-  console.log(navigator);
+  // console.log(navigator);
   if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(function (position) {
       const lat = position.coords.latitude;
@@ -340,7 +340,7 @@ var clustererKeyword = new kakao.maps.MarkerClusterer({
 
 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
 function removeAllChildNodes(el) {
-  console.log(el);
+  // console.log(el);
   while (el.hasChildNodes()) {
     el.removeChild(el.lastChild);
   }
@@ -432,7 +432,7 @@ searchText.addEventListener('keypress', e => {
 });
 searchText.addEventListener('input', () => {
   if (searchText.value == '') {
-    console.log('test');
+    // console.log('test');
     clustererKeyword.clear();
 
     // 검색 결과 목록에 추가된 항목들을 제거합니다
@@ -459,7 +459,7 @@ function regionData(dongname) {
   })
     // $.getJSON('./js/data.json', geojson => {
     .done(geojson => {
-      console.log(geojson.response.result.featureCollection.features);
+      // console.log(geojson.response.result.featureCollection.features);
       var data = geojson.response.result.featureCollection.features;
       var coordinates = []; // 좌표 저장할 배열
       var name = ''; // 행정 구역 이름
@@ -500,7 +500,7 @@ function displayArea(coordinates, name) {
     fillOpacity: 0.7,
   });
 
-  console.log(polygon);
+  // console.log(polygon);
   polygons.push(polygon); // 폴리곤 제거하기 위한 배열
 
   // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
