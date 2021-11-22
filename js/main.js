@@ -454,7 +454,7 @@ var polygons = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하
 function regionData(dongname) {
   $.ajax({
     // url: `http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:${dongname}&crs=EPSG%3A4326&domain=localhost:5500`,
-    url: `http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:${dongname}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    url: `https://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:${dongname}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
     dataType: 'jsonp',
   })
     // $.getJSON('./js/data.json', geojson => {
