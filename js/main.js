@@ -26,6 +26,7 @@ var marker = new kakao.maps.Marker({
 });
 
 marker.setMap(map);
+regionData('죽전동');
 
 // 마커 클러스터러를 생성합니다 =========================================================
 var clusterer = new kakao.maps.MarkerClusterer({
@@ -92,6 +93,16 @@ var callbackRegionCode = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
     console.log('지역 명칭 : ' + result[0].address_name);
     console.log('행정구역 코드 : ' + result[0].code);
+
+    var dongname = result[0].address_name.split(' ');
+
+    if (result[0].code.substring(8, 10) === '00') {
+      regionData(dongname[dongname.length - 1]);
+      console.log(dongname[dongname.length - 1]);
+    } else {
+      regionData(dongname[dongname.length - 2]);
+      console.log(dongname[dongname.length - 2]);
+    }
   }
 };
 
@@ -197,6 +208,7 @@ selectbox.addEventListener('change', e => {
 kakao.maps.event.addListener(map, 'idle', function () {
   // console 에서 지도 정보를 보려면 getInfo() 주석을 해제하세요
   // getInfo();
+  deletePolygon(polygons);
 
   // 카테고리가 있을 경우 카테고리 검색
   if (categorySelect.value !== '') {
@@ -428,3 +440,117 @@ searchText.addEventListener('input', () => {
     searchdata.classList.add('hidden');
   }
 });
+
+// 죽전동 지역 경계
+// 행정 구역 구분
+// baseUrl =
+//   'http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:죽전동&crs=EPSG%3A900913&domain=localhost:5500';
+//   'http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:죽전동&crs=EPSG%3A4326&domain=localhost:5500';
+// &crs=EPSG%3A900913 (google mercator)
+// &crs=EPSG%3A4326 (경위도)
+
+var polygons = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
+
+function regionData(dongname) {
+  $.ajax({
+    // url: `http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:${dongname}&crs=EPSG%3A4326&domain=localhost:5500`,
+    url: `http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:${dongname}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    dataType: 'jsonp',
+  })
+    // $.getJSON('./js/data.json', geojson => {
+    .done(geojson => {
+      console.log(geojson.response.result.featureCollection.features);
+      var data = geojson.response.result.featureCollection.features;
+      var coordinates = []; // 좌표 저장할 배열
+      var name = ''; // 행정 구역 이름
+
+      $.each(data, (index, val) => {
+        coordinates = val.geometry.coordinates;
+        name = val.properties.full_nm;
+
+        displayArea(coordinates, name);
+      });
+    });
+}
+
+// 행정구역 폴리곤
+function displayArea(coordinates, name) {
+  // console.log(coordinates, name);
+
+  var path = []; // 폴리곤 그려줄 path
+  var points = []; // 중심좌표 구하기 위한 지역구 좌표들
+
+  $.each(coordinates[0][0], (index, coordinate) => {
+    // console.log((coordinate[1], coordinate[0]));
+    var point = new Object();
+    point.x = coordinate[1];
+    point.y = coordinate[0];
+    points.push(point);
+    path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+  });
+
+  // 다각형을 생성합니다.
+  var polygon = new kakao.maps.Polygon({
+    map: map, // 다각형을 표시할 지도 선택
+    path: path,
+    strokeWeight: 2,
+    strokeColor: '#004c80',
+    strokeOpacity: 0.8,
+    fillColor: '#fff',
+    fillOpacity: 0.7,
+  });
+
+  console.log(polygon);
+  polygons.push(polygon); // 폴리곤 제거하기 위한 배열
+
+  // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
+  // 지역명을 표시하는 커스텀 오버레이를 지도위에 표시합니다.
+  kakao.maps.event.addListener(polygon, 'mouseover', function () {
+    polygon.setOptions({
+      fillColor: '#09f',
+    });
+  });
+
+  // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
+  kakao.maps.event.addListener(polygon, 'mouseout', function () {
+    polygon.setOptions({
+      fillColor: '#fff',
+    });
+  });
+
+  // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  kakao.maps.event.addListener(polygon, 'click', function () {
+    // 현재 지도 레벨에서 2레밸 확대한 레벨
+    var level = map.getLevel() - 2;
+    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+    map.setLevel(level, {
+      anchor: centroid(points),
+      animate: {
+        duration: 350, // 확대 애니메이션 시간
+      },
+    });
+    deletePolygon(polygons); // 폴리곤 제거
+  });
+}
+// centroid 알고리즘(폴리곤 중심좌표 구하기 위함)
+function centroid(points) {
+  var i, j, len, p1, p2, f, area, x, y;
+  area = x = y = 0;
+
+  for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+    p1 = points[i];
+    p2 = points[j];
+    f = p1.y * p2.x - p2.y * p1.x;
+    x += (p1.x + p2.x) * f;
+    y += (p1.y + p2.y) * f;
+    area += f * 3;
+  }
+  return new kakao.maps.LatLng(x / area, y / area);
+}
+// 지도 위 표시되고 있는 폴리곤 제거
+function deletePolygon(polygons) {
+  for (var i = 0; i < polygons.length; i++) {
+    polygons[i].setMap(null);
+  }
+  polygons = [];
+}
