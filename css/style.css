@@ -83,6 +83,9 @@ h6 {
   color: white;
   font-size: 0.8rem;
 }
+.mapType div label {
+  vertical-align: top;
+}
 
 /* category */
 .category {
