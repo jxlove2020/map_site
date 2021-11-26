@@ -84,7 +84,7 @@ h6 {
   font-size: 0.8rem;
 }
 .mapType div label {
-  vertical-align: top;
+  vertical-align: baseline;
 }
 
 /* category */
