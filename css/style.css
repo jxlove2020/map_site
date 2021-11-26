@@ -71,11 +71,24 @@ h6 {
   align-items: center;
 }
 
-/* category */
-.category {
+/* 지도 타입 */
+.mapType {
   display: inline-block;
   margin-top: 50px;
 }
+.mapType div {
+  margin-top: -20px;
+  margin-left: 75px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 0.8rem;
+}
+
+/* category */
+.category {
+  display: inline-block;
+}
+.mapType label,
 .category label {
   color: white;
   margin: 10px;

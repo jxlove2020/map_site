@@ -40,6 +40,35 @@
       <div class="menu">
         <div class="box">
           <div class="boxWrap hidden">
+            <div class="mapType">
+              <label>지도타입</label>
+              <div>
+                <input
+                  type="checkbox"
+                  id="chkUseDistrict"
+                  onclick="setOverlayMapTypeId()"
+                />
+                지적편집도 정보 보기<br />
+                <input
+                  type="checkbox"
+                  id="chkTerrain"
+                  onclick="setOverlayMapTypeId()"
+                />
+                지형정보 보기<br />
+                <input
+                  type="checkbox"
+                  id="chkTraffic"
+                  onclick="setOverlayMapTypeId()"
+                />
+                교통정보 보기<br />
+                <input
+                  type="checkbox"
+                  id="chkBicycle"
+                  onclick="setOverlayMapTypeId()"
+                />
+                자전거도로 정보 보기<br />
+              </div>
+            </div>
             <div class="category">
               <label>카테고리</label>
               <select name="categorySelect" id="categorySelect">
