@@ -2,7 +2,6 @@ const sCacheName = 'mapSite-pwa'; // 캐시제목 선언
 const aFilesToCache = [
   // 캐시할 파일 선언
   './',
-  './index.html',
   './manifest.json',
   './images/favicon.png',
   './images/16x16.png',
