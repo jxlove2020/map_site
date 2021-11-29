@@ -34,11 +34,9 @@ function setPolygon() {
   if (chkPolygon.checked) {
     showPolygon = true;
     map.panBy(-0.0001, -0.0001);
-    console.log(map.getCenter());
   } else {
     showPolygon = false;
     map.panBy(-0.0001, -0.0001);
-    console.log(map.getCenter());
   }
 }
 
@@ -49,11 +47,9 @@ function setPermissionForDevelopment() {
   if (chkPermissionForDevelopment.checked) {
     showPermissionForDevelopment = true;
     map.panBy(-0.0001, -0.0001);
-    console.log(map.getCenter());
   } else {
     showPermissionForDevelopment = false;
     map.panBy(-0.0001, -0.0001);
-    console.log(map.getCenter());
   }
 }
 
@@ -109,7 +105,7 @@ for (var i = 0; i < positions.length; i++) {
 var geocoder = new kakao.maps.services.Geocoder();
 var addressCallback = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
-    console.log('주소좌표====>', result);
+    // console.log('주소좌표====>', result);
     geocoder.coord2RegionCode(result[0].x, result[0].y, callbackRegionCode);
   }
 };
@@ -120,8 +116,8 @@ geocoder.addressSearch('수지구 죽전동', addressCallback);
 // 좌표 값에 해당하는 행정동, 법정동 정보를 얻는다.
 var callbackRegionCode = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
-    console.log('지역 명칭 : ' + result[0].address_name);
-    console.log('행정구역 코드 : ' + result[0].code);
+    // console.log('지역 명칭 : ' + result[0].address_name);
+    // console.log('행정구역 코드 : ' + result[0].code);
 
     var dongname = result[0].address_name.split(' ');
 
@@ -294,7 +290,7 @@ function getInfo() {
     북동쪽 좌표는 ${neLatLng.getLat()}, ${neLatLng.getLng()} 입니다
     영역정보는 ${boundsStr} 입니다`;
 
-  console.log(message);
+  // console.log(message);
 }
 
 // 좌표로 주소 얻기 =========================================================
@@ -642,7 +638,7 @@ function setOverlayMapTypeId() {
 var permissionForDevelopmentPolygons = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
 // dongcode - 읍면동코드 8자리
 function permissionForDevelopmentData(dongcode) {
-  console.log('dongcode', dongcode);
+  // console.log('dongcode', dongcode);
   $.ajax({
     // url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=localhost:5500`,
     url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
@@ -650,7 +646,7 @@ function permissionForDevelopmentData(dongcode) {
   })
     // $.getJSON('./js/data.json', geojson => {
     .done(geojson => {
-      console.log(geojson.response);
+      // console.log(geojson.response);
       // console.log(geojson.response.status);
       // var data = geojson.response.result.featureCollection.features;
       var coordinates = []; // 좌표 저장할 배열
@@ -696,7 +692,6 @@ function displayPermissionForDevelopmentArea(coordinates, name) {
     fillOpacity: 0.7,
   });
 
-  // console.log(polygon);
   permissionForDevelopmentPolygons.push(polygon); // 폴리곤 제거하기 위한 배열
 
   // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
