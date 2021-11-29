@@ -79,11 +79,6 @@ h6 {
 .polygon {
   margin-top: 50px;
 }
-.polygon label {
-  color: white;
-  margin: 10px;
-  font-size: 0.8rem;
-}
 .polygon div {
   margin-top: -20px;
   margin-left: 75px;
@@ -97,25 +92,29 @@ h6 {
   display: inline-block;
 }
 .mapType div {
-  margin-top: -20px;
+  margin-top: -18px;
   margin-left: 75px;
   color: white;
   font-size: 0.8rem;
 }
-.mapType div label {
-  vertical-align: baseline;
-}
-
 /* category */
 .category {
   display: inline-block;
 }
+.polygon label,
 .mapType label,
-.category label {
+.category label,
+.search label {
   color: white;
   margin: 10px;
   font-size: 0.8rem;
 }
+.polygon div > label,
+.mapType div > label {
+  vertical-align: top;
+  margin: 0;
+}
+
 .category #categorySelect {
   padding: 5px;
   border-radius: 10px;
@@ -180,9 +179,6 @@ img[title='현재위치'] {
   margin-top: 1rem;
 }
 .search label {
-  color: white;
-  margin: 10px;
-  font-size: 0.8rem;
   letter-spacing: 1.5rem;
 }
 input#search {
