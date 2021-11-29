@@ -111,8 +111,9 @@ h6 {
 }
 .polygon div > label,
 .mapType div > label {
-  vertical-align: baseline;
   margin: 0;
+  position: relative;
+  top: -1.5px;
 }
 
 .category #categorySelect {
