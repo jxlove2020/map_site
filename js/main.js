@@ -42,6 +42,21 @@ function setPolygon() {
   }
 }
 
+var showPermissionForDevelopment = false;
+function setPermissionForDevelopment() {
+  // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
+  map.panBy(0.0001, 0.0001);
+  if (chkPermissionForDevelopment.checked) {
+    showPermissionForDevelopment = true;
+    map.panBy(-0.0001, -0.0001);
+    console.log(map.getCenter());
+  } else {
+    showPermissionForDevelopment = false;
+    map.panBy(-0.0001, -0.0001);
+    console.log(map.getCenter());
+  }
+}
+
 // 마커 클러스터러를 생성합니다 =========================================================
 var clusterer = new kakao.maps.MarkerClusterer({
   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -118,6 +133,11 @@ var callbackRegionCode = function (result, status) {
         regionData(dongname[dongname.length - 2]);
         // console.log(dongname[dongname.length - 2]);
       }
+    }
+
+    if (showPermissionForDevelopment) {
+      // console.log(result[0].code.substring(0, 8));
+      permissionForDevelopmentData(result[0].code.substring(0, 8));
     }
   }
 };
@@ -225,6 +245,7 @@ kakao.maps.event.addListener(map, 'idle', function () {
   // console 에서 지도 정보를 보려면 getInfo() 주석을 해제하세요
   // getInfo();
   deletePolygon(polygons);
+  deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons);
 
   // 카테고리가 있을 경우 카테고리 검색
   if (categorySelect.value !== '') {
@@ -547,6 +568,7 @@ function displayArea(coordinates, name) {
     deletePolygon(polygons); // 폴리곤 제거
   });
 }
+
 // centroid 알고리즘(폴리곤 중심좌표 구하기 위함)
 function centroid(points) {
   var i, j, len, p1, p2, f, area, x, y;
@@ -562,6 +584,7 @@ function centroid(points) {
   }
   return new kakao.maps.LatLng(x / area, y / area);
 }
+
 // 지도 위 표시되고 있는 폴리곤 제거
 function deletePolygon(polygons) {
   for (var i = 0; i < polygons.length; i++) {
@@ -613,4 +636,105 @@ function setOverlayMapTypeId() {
   if (chkBicycle.checked) {
     map.addOverlayMapTypeId(mapTypes.bicycle);
   }
+}
+
+// 개발행위허가필지 구분
+var permissionForDevelopmentPolygons = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
+// dongcode - 읍면동코드 8자리
+function permissionForDevelopmentData(dongcode) {
+  console.log('dongcode', dongcode);
+  $.ajax({
+    // url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=localhost:5500`,
+    url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    dataType: 'jsonp',
+  })
+    // $.getJSON('./js/data.json', geojson => {
+    .done(geojson => {
+      console.log(geojson.response);
+      // console.log(geojson.response.status);
+      // var data = geojson.response.result.featureCollection.features;
+      var coordinates = []; // 좌표 저장할 배열
+      var name = ''; // 행정 구역 이름
+
+      if (geojson.response.status != 'NOT_FOUND') {
+        var data = geojson.response.result.featureCollection.features;
+
+        $.each(data, (index, val) => {
+          coordinates = val.geometry.coordinates;
+          name = val.properties.full_nm;
+
+          displayPermissionForDevelopmentArea(coordinates, name);
+        });
+      }
+    });
+}
+
+// 행정구역 폴리곤
+function displayPermissionForDevelopmentArea(coordinates, name) {
+  // console.log(coordinates, name);
+
+  var path = []; // 폴리곤 그려줄 path
+  var points = []; // 중심좌표 구하기 위한 지역구 좌표들
+
+  $.each(coordinates[0][0], (index, coordinate) => {
+    // console.log((coordinate[1], coordinate[0]));
+    var point = new Object();
+    point.x = coordinate[1];
+    point.y = coordinate[0];
+    points.push(point);
+    path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+  });
+
+  // 다각형을 생성합니다.
+  var polygon = new kakao.maps.Polygon({
+    map: map, // 다각형을 표시할 지도 선택
+    path: path,
+    strokeWeight: 2,
+    strokeColor: '#d02000', // 빨간색
+    strokeOpacity: 0.8,
+    fillColor: '#fff',
+    fillOpacity: 0.7,
+  });
+
+  // console.log(polygon);
+  permissionForDevelopmentPolygons.push(polygon); // 폴리곤 제거하기 위한 배열
+
+  // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
+  // 지역명을 표시하는 커스텀 오버레이를 지도위에 표시합니다.
+  kakao.maps.event.addListener(polygon, 'mouseover', function () {
+    polygon.setOptions({
+      fillColor: '#630300',
+    });
+  });
+
+  // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
+  kakao.maps.event.addListener(polygon, 'mouseout', function () {
+    polygon.setOptions({
+      fillColor: '#fff',
+    });
+  });
+
+  // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  kakao.maps.event.addListener(polygon, 'click', function () {
+    // 현재 지도 레벨에서 2레밸 확대한 레벨
+    var level = map.getLevel() - 2;
+    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+    map.setLevel(level, {
+      anchor: centroid(points),
+      animate: {
+        duration: 350, // 확대 애니메이션 시간
+      },
+    });
+    deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons); // 폴리곤 제거
+  });
+}
+
+// 지도 위 표시되고 있는 폴리곤 제거
+function deletePermissionForDevelopmentPolygon(
+  permissionForDevelopmentPolygons
+) {
+  for (var i = 0; i < permissionForDevelopmentPolygons.length; i++) {
+    permissionForDevelopmentPolygons[i].setMap(null);
+  }
+  permissionForDevelopmentPolygons = [];
 }
