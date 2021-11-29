@@ -26,7 +26,21 @@ var marker = new kakao.maps.Marker({
 });
 
 marker.setMap(map);
-regionData('죽전동');
+
+var showPolygon = false;
+function setPolygon() {
+  // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
+  map.panBy(0.0001, 0.0001);
+  if (chkPolygon.checked) {
+    showPolygon = true;
+    map.panBy(-0.0001, -0.0001);
+    console.log(map.getCenter());
+  } else {
+    showPolygon = false;
+    map.panBy(-0.0001, -0.0001);
+    console.log(map.getCenter());
+  }
+}
 
 // 마커 클러스터러를 생성합니다 =========================================================
 var clusterer = new kakao.maps.MarkerClusterer({
@@ -96,12 +110,14 @@ var callbackRegionCode = function (result, status) {
 
     var dongname = result[0].address_name.split(' ');
 
-    if (result[0].code.substring(8, 10) === '00') {
-      regionData(dongname[dongname.length - 1]);
-      // console.log(dongname[dongname.length - 1]);
-    } else {
-      regionData(dongname[dongname.length - 2]);
-      // console.log(dongname[dongname.length - 2]);
+    if (showPolygon) {
+      if (result[0].code.substring(8, 10) === '00') {
+        regionData(dongname[dongname.length - 1]);
+        // console.log(dongname[dongname.length - 1]);
+      } else {
+        regionData(dongname[dongname.length - 2]);
+        // console.log(dongname[dongname.length - 2]);
+      }
     }
   }
 };
@@ -448,7 +464,6 @@ searchText.addEventListener('input', () => {
 //   'http://api.vworld.kr/req/data?service=data&version=2.0&request=GetFeature&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&data=LT_C_ADEMD_INFO&attrfilter=emd_kor_nm:like:죽전동&crs=EPSG%3A4326&domain=localhost:5500';
 // &crs=EPSG%3A900913 (google mercator)
 // &crs=EPSG%3A4326 (경위도)
-
 var polygons = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
 
 function regionData(dongname) {

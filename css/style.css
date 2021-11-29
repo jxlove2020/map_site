@@ -71,15 +71,34 @@ h6 {
   align-items: center;
 }
 
+.hrStyle {
+  margin: 10px;
+}
+
+/* 폴리곤 */
+.polygon {
+  margin-top: 50px;
+}
+.polygon label {
+  color: white;
+  margin: 10px;
+  font-size: 0.8rem;
+}
+.polygon div {
+  margin-top: -20px;
+  margin-left: 75px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 0.8rem;
+}
+
 /* 지도 타입 */
 .mapType {
   display: inline-block;
-  margin-top: 50px;
 }
 .mapType div {
   margin-top: -20px;
   margin-left: 75px;
-  margin-bottom: 10px;
   color: white;
   font-size: 0.8rem;
 }
