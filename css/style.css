@@ -131,6 +131,7 @@ h6 {
 .category #categorySelect {
   padding: 5px;
   border-radius: 10px;
+  outline: none;
 }
 
 /* location */
