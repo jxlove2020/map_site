@@ -116,8 +116,8 @@ geocoder.addressSearch('수지구 죽전동', addressCallback);
 // 좌표 값에 해당하는 행정동, 법정동 정보를 얻는다.
 var callbackRegionCode = function (result, status) {
   if (status === kakao.maps.services.Status.OK) {
-    // console.log('지역 명칭 : ' + result[0].address_name);
-    // console.log('행정구역 코드 : ' + result[0].code);
+    console.log('지역 명칭 : ' + result[0].address_name);
+    console.log('행정구역 코드 : ' + result[0].code);
 
     var dongname = result[0].address_name.split(' ');
 
@@ -296,7 +296,7 @@ function getInfo() {
     API geomFilter 항목의 입력란에서 자주 사용됨
     ${polygonAreaData}
     `;
-  // console.log(message);
+  console.log(message);
 }
 
 // 좌표로 주소 얻기 =========================================================
@@ -672,7 +672,7 @@ function permissionForDevelopmentData(dongcode) {
     });
 }
 
-// 행정구역 폴리곤
+// 개발행위허가필지 폴리곤
 function displayPermissionForDevelopmentArea(coordinates, name) {
   // console.log(coordinates, name);
 
@@ -731,7 +731,7 @@ function displayPermissionForDevelopmentArea(coordinates, name) {
   });
 }
 
-// 지도 위 표시되고 있는 폴리곤 제거
+// 지도 위 표시되고 있는 개발행위허가필지 폴리곤 제거
 function deletePermissionForDevelopmentPolygon(
   permissionForDevelopmentPolygons
 ) {
