@@ -239,7 +239,7 @@ selectbox.addEventListener('change', e => {
 // 단, 애니메이션 도중에는 발생하지 않는다.
 kakao.maps.event.addListener(map, 'idle', function () {
   // console 에서 지도 정보를 보려면 getInfo() 주석을 해제하세요
-  // getInfo();
+  getInfo();
   deletePolygon(polygons);
   deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons);
 
@@ -259,6 +259,7 @@ kakao.maps.event.addListener(map, 'idle', function () {
   );
 });
 
+var polygonAreaData;
 // 콘솔 창에서 getInfo() 하면 message 내용 출력 =========================================================
 function getInfo() {
   // 지도의 현재 중심좌표를 얻어옵니다
@@ -282,14 +283,19 @@ function getInfo() {
   // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
   var boundsStr = bounds.toString();
 
+  polygonAreaData = `POLYGON((${swLatLng.getLng()} ${neLatLng.getLat()},${neLatLng.getLng()} ${neLatLng.getLat()},${neLatLng.getLng()} ${swLatLng.getLat()},${swLatLng.getLng()} ${swLatLng.getLat()},${swLatLng.getLng()} ${neLatLng.getLat()}))`;
+
   var message = `
     지도 중심좌표는 위도 ${center.getLat()}, 경도 ${center.getLng()}이고 
     지도 레벨은 ${level}입니다 
     지도 타입은 ${mapTypeId} 이고
     지도의 남서쪽 좌표는${swLatLng.getLat()}, ${swLatLng.getLng()}이고
     북동쪽 좌표는 ${neLatLng.getLat()}, ${neLatLng.getLng()} 입니다
-    영역정보는 ${boundsStr} 입니다`;
-
+    영역정보는 ${boundsStr} 입니다
+    화면영역 폴리곤 좌표는 좌측상단, 우측상단, 우측하단, 좌측하단 순으로 마지막으로 처음것으로 폴리곤을 닫아준다. 
+    API geomFilter 항목의 입력란에서 자주 사용됨
+    ${polygonAreaData}
+    `;
   // console.log(message);
 }
 
@@ -641,7 +647,8 @@ function permissionForDevelopmentData(dongcode) {
   // console.log('dongcode', dongcode);
   $.ajax({
     // url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=localhost:5500`,
-    url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    // url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&attrfilter=emdCd:=:${dongcode}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_UPISUQ174&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
     dataType: 'jsonp',
   })
     // $.getJSON('./js/data.json', geojson => {
