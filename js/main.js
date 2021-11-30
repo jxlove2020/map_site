@@ -534,8 +534,8 @@ function displayArea(coordinates, name) {
     strokeWeight: 2,
     strokeColor: '#004c80',
     strokeOpacity: 0.8,
-    fillColor: '#fff',
-    fillOpacity: 0.7,
+    fillColor: '#09f',
+    fillOpacity: 0.5,
   });
 
   // console.log(polygon);
@@ -552,7 +552,7 @@ function displayArea(coordinates, name) {
   // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
   kakao.maps.event.addListener(polygon, 'mouseout', function () {
     polygon.setOptions({
-      fillColor: '#fff',
+      fillColor: '#09f',
     });
   });
 
@@ -695,8 +695,8 @@ function displayPermissionForDevelopmentArea(coordinates, name) {
     strokeWeight: 2,
     strokeColor: '#d02000', // 빨간색
     strokeOpacity: 0.8,
-    fillColor: '#fff',
-    fillOpacity: 0.7,
+    fillColor: '#d02000',
+    fillOpacity: 0.5,
   });
 
   permissionForDevelopmentPolygons.push(polygon); // 폴리곤 제거하기 위한 배열
@@ -705,14 +705,14 @@ function displayPermissionForDevelopmentArea(coordinates, name) {
   // 지역명을 표시하는 커스텀 오버레이를 지도위에 표시합니다.
   kakao.maps.event.addListener(polygon, 'mouseover', function () {
     polygon.setOptions({
-      fillColor: '#630300',
+      fillColor: '#d02000',
     });
   });
 
   // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
   kakao.maps.event.addListener(polygon, 'mouseout', function () {
     polygon.setOptions({
-      fillColor: '#fff',
+      fillColor: '#d02000',
     });
   });
 
