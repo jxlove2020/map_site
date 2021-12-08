@@ -363,11 +363,11 @@ function displayCenterInfo(result, status) {
 searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 
 // 현재위치로 가기 =========================================================
-
 // 현재위치 를 1번만 호출할수 있도록 해주는 변수
 const myLocation = document.querySelector('.mylocation > i');
-let currentUse = true;
 
+let currentUse = true;
+let customOverlay;
 // 현재위치를 받아오는 함수
 myLocation.addEventListener('click', () => {
   // console.log(navigator);
@@ -397,6 +397,42 @@ myLocation.addEventListener('click', () => {
         currentUse = false;
       }
 
+      // 커스텀 오버레이를 생성하고 지도에 표시한다 ===============================
+      // 커스텀 오버레이에 표시할 컨텐츠 입니다
+      // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+      // 별도의 이벤트 메소드를 제공하지 않습니다
+      var content =
+        '<div class="custom_overlay_wrap">' +
+        '    <div class="custom_overlay">' +
+        '        <div class="title">' +
+        '            현재위치' +
+        '            <div class="close" onclick="closeOverlay()" title="닫기"><i class="far fa-window-close"></i></div>' +
+        '        </div>' +
+        '        <div class="body">' +
+        '            <div class="img">' +
+        '                <img src="https://picsum.photos/70" alt="" />' +
+        '           </div>' +
+        '            <div class="desc">' +
+        '                <div class="ellipsis">현재 사용자의 위치입니다.</div>' +
+        '                <div><a href="https://jxlove2020.github.io/map_site/" target="_blank" class="link">홈페이지</a></div>' +
+        '            </div>' +
+        '        </div>' +
+        '    </div>' +
+        '</div>';
+
+      customOverlay = new kakao.maps.CustomOverlay({
+        map: map,
+        content: content,
+        position: latlng, // 커스텀 오버레이를 표시할 좌표
+        xAnchor: 0.5, // 컨텐츠의 x 위치
+        yAnchor: 3, // 컨텐츠의 y 위치
+      });
+
+      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+      kakao.maps.event.addListener(marker, 'click', function () {
+        customOverlay.setMap(map);
+      });
+
       map.setLevel(4);
       // latlng 위치로 이동
       map.panTo(latlng);
@@ -405,6 +441,11 @@ myLocation.addEventListener('click', () => {
     alert('위치정보사용 불가능');
   }
 });
+
+// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+function closeOverlay() {
+  customOverlay.setMap(null);
+}
 
 // 키워드 검색
 var searchText = document.querySelector('#search');
