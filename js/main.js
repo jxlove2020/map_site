@@ -171,7 +171,6 @@ var callbackRegionCode = function (result, status) {
 
     // 주요상권 표시
     if (showMajorCommercialDistrict) {
-      console.log('주요상권');
       majorCommercialDistrictData();
     }
   }
