@@ -357,4 +357,5 @@ input#search {
 }
 .custom_overlay .link {
   color: #5085bb;
+  text-decoration: none;
 }

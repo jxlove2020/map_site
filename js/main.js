@@ -414,6 +414,7 @@ myLocation.addEventListener('click', () => {
         '           </div>' +
         '            <div class="desc">' +
         '                <div class="ellipsis">현재 사용자의 위치입니다.</div>' +
+        '                <br />' +
         '                <div><a href="https://jxlove2020.github.io/map_site/" target="_blank" class="link">홈페이지</a></div>' +
         '            </div>' +
         '        </div>' +
