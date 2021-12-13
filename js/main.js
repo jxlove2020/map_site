@@ -550,7 +550,7 @@ function getListItem(places) {
       '    <span>' +
       places.road_address_name +
       '</span>' +
-      '   <span class="jibun gray">' +
+      '<span class="jibun gray"><span class="badge">지번</span> ' +
       places.address_name +
       '</span>';
   } else {

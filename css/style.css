@@ -11,6 +11,14 @@ h6 {
   margin: 0;
   padding: 0;
 }
+.badge {
+  display: inline-block !important;
+  font-size: 0.7rem;
+  padding: 0 2px;
+  border-radius: 5px;
+  background: #eee;
+  color: grey;
+}
 #map {
   width: 100vw;
   height: 100vh;
@@ -225,6 +233,18 @@ input#search {
   font-size: 0.8rem;
   font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 }
+
+/* 검색결과 창 스크롤바 크기 및 색상 변경 */
+.searchdata::-webkit-scrollbar {
+  width: 3px; /*스크롤바의 너비*/
+}
+.searchdata::-webkit-scrollbar-thumb {
+  background-color: black; /*스크롤바의 색상*/
+}
+.searchdata::-webkit-scrollbar-track {
+  background-color: yellowgreen; /*스크롤바 트랙 색상*/
+}
+
 .searchdata.show {
   display: block;
 }
@@ -241,7 +261,7 @@ input#search {
   cursor: pointer;
   min-height: 65px;
 }
-.searchdata .item span {
+.searchdata .item span.jibun {
   display: block;
   margin-top: 4px;
 }
@@ -257,11 +277,9 @@ input#search {
 .searchdata .info .gray {
   color: #8a8a8a;
 }
-.searchdata .info .jibun {
+/* .searchdata .info .jibun {
   padding-left: 26px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
-    no-repeat;
-}
+} */
 .searchdata .info .tel {
   color: #009900;
 }
@@ -353,7 +371,6 @@ input#search {
   bottom: 0;
   width: 22px;
   height: 12px;
-  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
 }
 .custom_overlay .link {
   color: #5085bb;
