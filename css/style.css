@@ -93,7 +93,11 @@ h6 {
 
 .hrStyle {
   margin: 10px;
-  border: 1px solid #fff;
+  border: none;
+  border-top: 1px solid #fff;
+}
+.hrStyle:last-child {
+  display: none;
 }
 
 /* 폴리곤 */
