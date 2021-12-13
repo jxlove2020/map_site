@@ -359,3 +359,27 @@ input#search {
   color: #5085bb;
   text-decoration: none;
 }
+
+/* 토스트 */
+#toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 20px 20px;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  overflow: hidden;
+  font-size: 0.8rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+  background: rgba(238, 34, 34, 0.8);
+  color: #fff;
+  z-index: 999;
+}
+
+#toast.reveal {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}

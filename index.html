@@ -47,7 +47,13 @@
                   type="checkbox"
                   id="chkPolygon"
                   onclick="setPolygon()"
-                /><label for="chkPolygon">행정구역 표시</label>
+                /><label for="chkPolygon">행정구역 표시</label><br />
+                <input
+                  type="checkbox"
+                  id="chkRoadNameAddrPolygon"
+                  onclick="setRoadNameAddrPolygon()"
+                /><label for="chkRoadNameAddrPolygon">도로명주소건물 표시</label
+                ><br />
               </div>
             </div>
             <hr class="hrStyle" />
@@ -155,6 +161,9 @@
       </div>
       <div class="addr" id="centerAddr"></div>
     </div>
+
+    <!-- 토스트 메시지 -->
+    <div id="toast"></div>
 
     <!-- 1. 서비스 워커 등록 -->
     <script>
