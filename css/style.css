@@ -225,7 +225,7 @@ input#search {
 }
 .searchdata {
   margin: 20px auto;
-  width: 90%;
+  width: 95%;
   height: 50vh;
   background: rgba(255, 255, 255, 0.7);
   overflow-y: auto;
@@ -265,7 +265,7 @@ input#search {
   display: block;
   margin-top: 4px;
 }
-.searchdata .item h5,
+.searchdata .item h4,
 .searchdata .item .info {
   text-overflow: ellipsis;
   overflow: hidden;

@@ -543,7 +543,7 @@ var callbackKeyword = function (result, status) {
 // 검색결과 항목을 Element로 반환하는 함수입니다
 function getListItem(places) {
   var el = document.createElement('li'),
-    itemStr = '<div class="info">' + '   <h5>' + places.place_name + '</h5>';
+    itemStr = '<div class="info">' + '   <h4>' + places.place_name + '</h4>';
 
   if (places.road_address_name) {
     itemStr +=
