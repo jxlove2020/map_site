@@ -357,7 +357,7 @@ function getInfo() {
     API geomFilter 항목의 입력란에서 자주 사용됨
     ${polygonAreaData}
     `;
-  console.log(message);
+  // console.log(message);
 }
 
 // 좌표로 주소 얻기 =========================================================
@@ -1046,13 +1046,13 @@ var roadNameAddrPolygons = []; // function 안쪽에 지역변수로 넣으면 �
 function roadNameAddrData() {
   if (level < 3) {
     $.ajax({
-      // url: `api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_SPBD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=100&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=localhost:5500`,
-      url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_SPBD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=100&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+      // url: `api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_SPBD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=200&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=localhost:5500`,
+      url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_SPBD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=200&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
       dataType: 'jsonp',
     })
       // $.getJSON('./js/data.json', geojson => {
       .done(geojson => {
-        console.log('RoadNameAddr', geojson.response);
+        // console.log('RoadNameAddr', geojson.response);
         // console.log(geojson.response.status);
         // var data = geojson.response.result.featureCollection.features;
         var coordinates = []; // 좌표 저장할 배열
@@ -1079,7 +1079,7 @@ function roadNameAddrData() {
 
 // 주요상권 폴리곤
 function displayRoadNameAddrArea(coordinates, name) {
-  console.log(coordinates, name);
+  // console.log(coordinates, name);
 
   var path = []; // 폴리곤 그려줄 path
   var points = []; // 중심좌표 구하기 위한 지역구 좌표들
@@ -1126,8 +1126,8 @@ function displayRoadNameAddrArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 2레밸 확대한 레벨
-    var level = map.getLevel() - 2;
+    // 현재 지도 레벨에서 1레밸 확대한 레벨
+    var level = map.getLevel() - 1;
     // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
     map.setLevel(level, {
       anchor: centroid(points),
