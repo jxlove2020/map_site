@@ -1070,7 +1070,7 @@ function roadNameAddrData() {
         }
       });
   } else {
-    displayLevelLimit(
+    displayToast(
       `도로명 주소 건물 표시는 줌 레벨 2 이하에서만 보입니다.\n 지도 화면을 확대 해주세요 `,
       3
     );
@@ -1150,7 +1150,7 @@ function deleteRoadNameAddrPolygon(roadNameAddrPolygons) {
 
 // 토스트 메시지 ==================================================================================
 let removeToast;
-function displayLevelLimit(string, seconds) {
+function displayToast(string, seconds) {
   const toast = document.getElementById('toast');
 
   toast.classList.contains('reveal')
