@@ -27,6 +27,7 @@ var marker = new kakao.maps.Marker({
 
 marker.setMap(map);
 
+// 행정구역표시
 var showPolygon = false;
 function setPolygon() {
   // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
@@ -40,6 +41,7 @@ function setPolygon() {
   }
 }
 
+// 도로명 주소 건물
 var showRoadNameAddrPolygon = false;
 function setRoadNameAddrPolygon() {
   // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
@@ -53,6 +55,7 @@ function setRoadNameAddrPolygon() {
   }
 }
 
+// 개발행위허가필지
 var showPermissionForDevelopment = false;
 function setPermissionForDevelopment() {
   // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
@@ -66,6 +69,7 @@ function setPermissionForDevelopment() {
   }
 }
 
+// 지구단위계획
 var showUnitPlan = false;
 function setUnitPlan() {
   // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
@@ -79,6 +83,7 @@ function setUnitPlan() {
   }
 }
 
+// 주요상권
 var showMajorCommercialDistrict = false;
 function setMajorCommercialDistrict() {
   // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
@@ -88,6 +93,20 @@ function setMajorCommercialDistrict() {
     map.panBy(-0.0001, -0.0001);
   } else {
     showMajorCommercialDistrict = false;
+    map.panBy(-0.0001, -0.0001);
+  }
+}
+
+// 산책로
+var showTrail = false;
+function setTrail() {
+  // panBy 로 지도를 움직임으로 리프레시 효과 줌, 처음에 움직였다가 다시 움직여서 안움직인 것 처럼 보이게 함
+  map.panBy(0.0001, 0.0001);
+  if (chkTrail.checked) {
+    showTrail = true;
+    map.panBy(-0.0001, -0.0001);
+  } else {
+    showTrail = false;
     map.panBy(-0.0001, -0.0001);
   }
 }
@@ -191,6 +210,11 @@ var callbackRegionCode = function (result, status) {
     // 주요상권 표시
     if (showMajorCommercialDistrict) {
       majorCommercialDistrictData();
+    }
+
+    // 산책로 표시
+    if (showTrail) {
+      trailData();
     }
   }
 };
@@ -302,6 +326,7 @@ kakao.maps.event.addListener(map, 'idle', function () {
   deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons);
   deleteUnitPlanPolygon(unitPlanPolygons);
   deleteMajorCommercialDistrictPolygon(majorCommercialDistrictPolygons);
+  deleteTrailLinestring(trailPolylines);
 
   // 카테고리가 있을 경우 카테고리 검색
   if (categorySelect.value !== '') {
@@ -357,7 +382,7 @@ function getInfo() {
     API geomFilter 항목의 입력란에서 자주 사용됨
     ${polygonAreaData}
     `;
-  // console.log(message);
+  console.log(message);
 }
 
 // 좌표로 주소 얻기 =========================================================
@@ -1145,6 +1170,105 @@ function deleteRoadNameAddrPolygon(roadNameAddrPolygons) {
     roadNameAddrPolygons[i].setMap(null);
   }
   roadNameAddrPolygons = [];
+}
+// ================================================================================================
+
+// 도로명주소 구분 ==============================================================================
+var trailPolylines = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
+function trailData() {
+  $.ajax({
+    // url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_L_TRKROAD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=200&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=localhost:5500`,
+    url: `https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_L_TRKROAD&key=9CCBEBE8-9506-3CF7-AAF6-46C996046E2D&format=json&errorformat=json&size=10&page=1&geomFilter=${polygonAreaData}&crs=EPSG%3A4326&domain=jxlove2020.github.io`,
+    dataType: 'jsonp',
+  })
+    // $.getJSON('./js/data.json', geojson => {
+    .done(geojson => {
+      console.log('trail', geojson.response);
+      // console.log(geojson.response.status);
+      // var data = geojson.response.result.featureCollection.features;
+      var coordinates = []; // 좌표 저장할 배열
+      var name = ''; // 행정 구역 이름
+
+      if (geojson.response.status != 'NOT_FOUND') {
+        var data = geojson.response.result.featureCollection.features;
+
+        $.each(data, (index, val) => {
+          coordinates = val.geometry.coordinates;
+          name = val.properties.cat_nam;
+
+          displayTrailArea(coordinates, name);
+        });
+      }
+    });
+}
+
+// 주요상권 폴리곤
+function displayTrailArea(coordinates, name) {
+  console.log(coordinates, name);
+
+  var path = []; // 폴리곤 그려줄 path
+  var points = []; // 중심좌표 구하기 위한 지역구 좌표들
+
+  $.each(coordinates[0], (index, coordinate) => {
+    var point = new Object();
+    point.x = coordinate[1];
+    point.y = coordinate[0];
+
+    // console.log('point.x ', coordinate[1]);
+    // console.log('point.y', coordinate[0]);
+
+    points.push(point);
+    path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+  });
+
+  // 다각형을 생성합니다.
+  var polyline = new kakao.maps.Polyline({
+    map: map, // 다각형을 표시할 지도 선택
+    path: path,
+    strokeWeight: 5,
+    strokeColor: '#FF00FF', // 핑크색
+    strokeOpacity: 0.8,
+    strokeStyle: 'dashed',
+  });
+
+  trailPolylines.push(polyline); // 폴리곤 제거하기 위한 배열
+
+  // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
+  // 지역명을 표시하는 커스텀 오버레이를 지도위에 표시합니다.
+  kakao.maps.event.addListener(polyline, 'mouseover', function () {
+    polyline.setOptions({
+      fillColor: '#ffc300',
+    });
+  });
+
+  // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
+  kakao.maps.event.addListener(polyline, 'mouseout', function () {
+    polyline.setOptions({
+      fillColor: '#ffc300',
+    });
+  });
+
+  // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  kakao.maps.event.addListener(polyline, 'click', function () {
+    // 현재 지도 레벨에서 1레밸 확대한 레벨
+    var level = map.getLevel() - 1;
+    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+    map.setLevel(level, {
+      anchor: centroid(points),
+      animate: {
+        duration: 350, // 확대 애니메이션 시간
+      },
+    });
+    deleteTrailLinestring(trailPolylines); // 폴리곤 제거
+  });
+}
+
+// 지도 위 표시되고 있는 주요상권 폴리곤 제거
+function deleteTrailLinestring(trailPolylines) {
+  for (var i = 0; i < trailPolylines.length; i++) {
+    trailPolylines[i].setMap(null);
+  }
+  trailPolylines = [];
 }
 // ================================================================================================
 
