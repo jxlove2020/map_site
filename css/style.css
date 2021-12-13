@@ -37,7 +37,19 @@ h6 {
   height: 25px;
   /* background-color: white; */
   z-index: 2;
+  overflow-y: auto;
   transition: all 0.5s;
+}
+
+/* 검색결과 창 스크롤바 크기 및 색상 변경 */
+.menu .box::-webkit-scrollbar {
+  width: 3px; /*스크롤바의 너비*/
+}
+.menu .box::-webkit-scrollbar-thumb {
+  background-color: black; /*스크롤바의 색상*/
+}
+.menu .box::-webkit-scrollbar-track {
+  background-color: yellowgreen; /*스크롤바 트랙 색상*/
 }
 
 .menu .box.show {
