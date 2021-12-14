@@ -1233,33 +1233,23 @@ function displayTrailArea(coordinates, name) {
 
   trailPolylines.push(polyline); // 폴리곤 제거하기 위한 배열
 
-  // 다각형에 mouseover 이벤트를 등록 하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다.
-  // 지역명을 표시하는 커스텀 오버레이를 지도위에 표시합니다.
-  kakao.maps.event.addListener(polyline, 'mouseover', function () {
+  // 다각형에 mousedown 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  kakao.maps.event.addListener(polyline, 'mousedown', function () {
     polyline.setOptions({
-      fillColor: '#ffc300',
+      strokeColor: '#0b7aef',
     });
+    // 폴리 라인 총 길이 m(미터) 단위로 반환
+    var polylineLength = polyline.getLength();
+    displayToast(Math.floor(polylineLength) + 'm', 3);
   });
-
-  // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다.
-  kakao.maps.event.addListener(polyline, 'mouseout', function () {
+  // 다각형에 mouseup 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  kakao.maps.event.addListener(polyline, 'mouseup', function () {
     polyline.setOptions({
-      fillColor: '#ffc300',
+      strokeColor: '#FF00FF',
     });
-  });
-
-  // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
-  kakao.maps.event.addListener(polyline, 'click', function () {
-    // 현재 지도 레벨에서 1레밸 확대한 레벨
-    var level = map.getLevel() - 1;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deleteTrailLinestring(trailPolylines); // 폴리곤 제거
+    // 폴리 라인 총 길이 m(미터) 단위로 반환
+    var polylineLength = polyline.getLength();
+    displayToast(Math.floor(polylineLength) + 'm', 3);
   });
 }
 
