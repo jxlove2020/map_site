@@ -1102,7 +1102,7 @@ function roadNameAddrData() {
   }
 }
 
-// 주요상권 폴리곤
+// 도로명주소 폴리곤
 function displayRoadNameAddrArea(coordinates, name) {
   // console.log(coordinates, name);
 
@@ -1151,16 +1151,18 @@ function displayRoadNameAddrArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 1레밸 확대한 레벨
-    var level = map.getLevel() - 1;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deleteRoadNameAddrPolygon(roadNameAddrPolygons); // 폴리곤 제거
+    if (map.getLevel() > 1) {
+      // 현재 지도 레벨에서 1레밸 확대한 레벨
+      var level = map.getLevel() - 1;
+      // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+      map.setLevel(level, {
+        anchor: centroid(points),
+        animate: {
+          duration: 350, // 확대 애니메이션 시간
+        },
+      });
+      deleteRoadNameAddrPolygon(roadNameAddrPolygons); // 폴리곤 제거
+    }
   });
 }
 
@@ -1173,7 +1175,7 @@ function deleteRoadNameAddrPolygon(roadNameAddrPolygons) {
 }
 // ================================================================================================
 
-// 도로명주소 구분 ==============================================================================
+// 산책로 구분 ==============================================================================
 var trailPolylines = []; // function 안쪽에 지역변수로 넣으면 폴리곤 하나 생성할 때마다 배열이 비어서 클릭할 때 전체를 못 없애줌.
 function trailData() {
   $.ajax({
@@ -1202,11 +1204,11 @@ function trailData() {
     });
 }
 
-// 주요상권 폴리곤
+// 산책로 폴리라인
 function displayTrailArea(coordinates, name) {
   console.log(coordinates, name);
 
-  var path = []; // 폴리곤 그려줄 path
+  var path = []; // 폴리라인 그려줄 path
   var points = []; // 중심좌표 구하기 위한 지역구 좌표들
 
   $.each(coordinates[0], (index, coordinate) => {
@@ -1221,9 +1223,9 @@ function displayTrailArea(coordinates, name) {
     path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
   });
 
-  // 다각형을 생성합니다.
+  // 라인을 생성합니다.
   var polyline = new kakao.maps.Polyline({
-    map: map, // 다각형을 표시할 지도 선택
+    map: map, // 라인을 표시할 지도 선택
     path: path,
     strokeWeight: 5,
     strokeColor: '#FF00FF', // 핑크색
@@ -1231,7 +1233,7 @@ function displayTrailArea(coordinates, name) {
     strokeStyle: 'dashed',
   });
 
-  trailPolylines.push(polyline); // 폴리곤 제거하기 위한 배열
+  trailPolylines.push(polyline); // 폴리라인 제거하기 위한 배열
 
   // 다각형에 mousedown 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polyline, 'mousedown', function () {
@@ -1242,7 +1244,7 @@ function displayTrailArea(coordinates, name) {
     var polylineLength = polyline.getLength();
     displayToast(Math.floor(polylineLength) + 'm', 3);
   });
-  // 다각형에 mouseup 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
+  // 라인에 mouseup 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polyline, 'mouseup', function () {
     polyline.setOptions({
       strokeColor: '#FF00FF',
@@ -1253,7 +1255,7 @@ function displayTrailArea(coordinates, name) {
   });
 }
 
-// 지도 위 표시되고 있는 주요상권 폴리곤 제거
+// 지도 위 표시되고 있는 산책로 폴리 라인 제거
 function deleteTrailLinestring(trailPolylines) {
   for (var i = 0; i < trailPolylines.length; i++) {
     trailPolylines[i].setMap(null);
