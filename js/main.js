@@ -687,16 +687,18 @@ function displayArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 2레밸 확대한 레벨
-    var level = map.getLevel() - 2;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deletePolygon(polygons); // 폴리곤 제거
+    if (map.getLevel() > 1) {
+      // 현재 지도 레벨에서 2레밸 확대한 레벨
+      var level = map.getLevel() - 2;
+      // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+      map.setLevel(level, {
+        anchor: centroid(points),
+        animate: {
+          duration: 350, // 확대 애니메이션 시간
+        },
+      });
+      deletePolygon(polygons); // 폴리곤 제거
+    }
   });
 }
 
@@ -848,16 +850,18 @@ function displayPermissionForDevelopmentArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 2레밸 확대한 레벨
-    var level = map.getLevel() - 2;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons); // 폴리곤 제거
+    if (map.getLevel() > 1) {
+      // 현재 지도 레벨에서 1레밸 확대한 레벨
+      var level = map.getLevel() - 1;
+      // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+      map.setLevel(level, {
+        anchor: centroid(points),
+        animate: {
+          duration: 350, // 확대 애니메이션 시간
+        },
+      });
+      deletePermissionForDevelopmentPolygon(permissionForDevelopmentPolygons); // 폴리곤 제거
+    }
   });
 }
 
@@ -901,7 +905,7 @@ function unitPlanData() {
     });
 }
 
-// 개발행위허가필지 폴리곤
+// 지구단위계획 폴리곤
 function displayUnitPlanArea(coordinates, name) {
   // console.log(coordinates, name);
 
@@ -947,16 +951,18 @@ function displayUnitPlanArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 2레밸 확대한 레벨
-    var level = map.getLevel() - 2;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deleteUnitPlanPolygon(unitPlanPolygons); // 폴리곤 제거
+    if (map.getLevel() > 1) {
+      // 현재 지도 레벨에서 1레밸 확대한 레벨
+      var level = map.getLevel() - 1;
+      // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+      map.setLevel(level, {
+        anchor: centroid(points),
+        animate: {
+          duration: 350, // 확대 애니메이션 시간
+        },
+      });
+      deleteUnitPlanPolygon(unitPlanPolygons); // 폴리곤 제거
+    }
   });
 }
 
@@ -1044,16 +1050,18 @@ function displayMajorCommercialDistrictArea(coordinates, name) {
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역을 확대합니다.
   kakao.maps.event.addListener(polygon, 'click', function () {
-    // 현재 지도 레벨에서 2레밸 확대한 레벨
-    var level = map.getLevel() - 2;
-    // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
-    map.setLevel(level, {
-      anchor: centroid(points),
-      animate: {
-        duration: 350, // 확대 애니메이션 시간
-      },
-    });
-    deleteMajorCommercialDistrictPolygon(majorCommercialDistrictPolygons); // 폴리곤 제거
+    if (map.getLevel() > 1) {
+      // 현재 지도 레벨에서 1레밸 확대한 레벨
+      var level = map.getLevel() - 1;
+      // 지도롤 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다.
+      map.setLevel(level, {
+        anchor: centroid(points),
+        animate: {
+          duration: 350, // 확대 애니메이션 시간
+        },
+      });
+      deleteMajorCommercialDistrictPolygon(majorCommercialDistrictPolygons); // 폴리곤 제거
+    }
   });
 }
 
